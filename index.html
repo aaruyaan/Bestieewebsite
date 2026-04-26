@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To My Favorite Human | 2025</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;600&family=Plus+Jakarta+Sans:wght@200;400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #080506;
+            --rose-accent: #ff2d75;
+            --rose-soft: #ffb7c5;
+            --rose-glow: rgba(255, 45, 117, 0.3);
+            --glass: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-bright: #fff0f3;
+            --text-dim: #b0a0a5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-bright);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Sophisticated Background Layer --- */
+        #canvas-wrap {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1a0a0f 0%, #080506 100%);
+        }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.04;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* --- 2025 Fluid Cursor --- */
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--rose-accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            box-shadow: 0 0 15px var(--rose-accent);
+        }
+
+        #cursor-ring {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--rose-soft);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* --- Scroll Sections --- */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5rem 10%;
+            text-align: center;
+            position: relative;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Typography Styles --- */
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(3.5rem, 12vw, 8.5rem);
+            font-style: italic;
+            font-weight: 400;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            background: linear-gradient(to bottom, #ffffff 40%, var(--rose-soft));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            font-size: 0.75rem;
+            color: var(--rose-accent);
+            margin-bottom: 1rem;
+        }
+
+        .speech-text {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* --- Bento Style Elements --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 4rem;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .bento-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            border-radius: 32px;
+            backdrop-filter: blur(15px);
+            transition: 0.4s;
+            text-align: left;
+        }
+
+        .bento-card:hover {
+            border-color: var(--rose-accent);
+            background: rgba(255, 45, 117, 0.05);
+            transform: translateY(-10px);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* --- Interaction Button --- */
+        .btn-bloom {
+            background: transparent;
+            border: 1px solid var(--rose-accent);
+            color: white;
+            padding: 1.5rem 4rem;
+            border-radius: 100px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 3rem;
+            transition: 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-bloom:hover {
+            background: var(--rose-accent);
+            box-shadow: 0 0 50px var(--rose-glow);
+            transform: scale(1.05);
+        }
+
+        /* --- Heart Animation Background --- */
+        .floating-heart {
+            position: absolute;
+            color: var(--rose-accent);
+            opacity: 0.2;
+            pointer-events: none;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .bento-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+    <div class="noise-overlay"></div>
+    <div id="canvas-wrap"></div>
+
+    <section>
+        <div class="reveal visible">
+            <p class="subtitle">EST. SINCE WE MET</p>
+            <h1>My Bestie,<br>My Person.</h1>
+            <p class="speech-text">The world is loud, but your energy is my favorite song. Scroll down, I made this just for you.</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="reveal">
+            <h1 style="font-size: 4rem;">The Unfiltered <br>Truth.</h1>
+            <div class="bento-card" style="max-width: 800px; text-align: center;">
+                <p style="font-size: 1.3rem; line-height: 1.8; color: var(--text-bright);">
+                    "You’re not just my best friend; you’re my soul’s safe place. You are the girl who sees my chaos and says, <i>'Same, let's grab coffee.'</i> <br><br>
+                    I hope you know that you are the most radiant person in every room you enter. Your laugh is my favorite sound, and your happiness is my actual priority. Thanks for being the main character of my life."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="reveal">
+            <p class="subtitle">THE BESTIE REPORT</p>
+            <div class="bento-grid">
+                <div class="bento-card">
+                    <span class="card-icon">✨</span>
+                    <h3>Aesthetic King/Queen</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">Your style, your hair, your whole vibe? 11/10. No notes. Simply iconic.</p>
+                </div>
+                <div class="bento-card">
+                    <span class="card-icon">🧠</span>
+                    <h3>The Smartest</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">Even when you're being 'delulu', your brain is a literal masterpiece.</p>
+                </div>
+                <div class="bento-card">
+                    <span class="card-icon">🍕</span>
+                    <h3>The Ride or Die</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">From late-night rants to spontaneous adventures. You're always there.</p>
+                </div>
+                <div class="bento-card">
+                    <span class="card-icon">❤️</span>
+                    <h3>Pure Heart</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">The way you care about people is actually inspiring. I love that about you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="reveal">
+            <h1>Stay<br>Magical.</h1>
+            <p class="speech-text">I hope your day is as beautiful as your soul and as sweet as our favorite memories. I love you more than words can fit on a screen.</p>
+            <button class="btn-bloom" onclick="bloomEffect()">Press For Love</button>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        // --- 1. Custom Cursor Movement ---
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+
+        document.addEventListener('mousemove', (e) => {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            
+            ring.animate({
+                left: `${e.clientX - 20}px`,
+                top: `${e.clientY - 20}px`
+            }, { duration: 400, fill: "forwards" });
+        });
+
+        // --- 2. Scroll Reveal Logic ---
+        const observerOptions = { threshold: 0.25 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if(Math.random() > 0.5) createHeart(); // Occasional heart burst on scroll
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- 3. Dynamic Hearts ---
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        // --- 4. The "Bloom" Finale ---
+        function bloomEffect() {
+            const duration = 10 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) return clearInterval(interval);
+
+                const particleCount = 50 * (timeLeft / duration);
+                
+                // Rose Pink & White Confetti
+                confetti({
+                    ...defaults, particleCount,
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                    colors: ['#ff2d75', '#ffb7c5', '#ffffff']
+                });
+                confetti({
+                    ...defaults, particleCount,
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                    colors: ['#ff2d75', '#ffb7c5', '#ffffff']
+                });
+            }, 250);
+
+            // Change button state
+            const btn = document.querySelector('.btn-bloom');
+            btn.innerHTML = "You're My Soulmate! 💖";
+            btn.style.borderColor = "#ffffff";
+            
+            // Spawn extra hearts
+            for(let i=0; i<15; i++) {
+                setTimeout(createHeart, i * 300);
+            }
+        }
+
+        // Initialize background hearts
+        setInterval(createHeart, 2000);
+    </script>
+</body>
+</html>
